@@ -42,6 +42,6 @@ const SwitchContainer = styled.div`
 display: flex;
 background-color: white;
 color: black;
-flex:3;`
+flex:1 1 70%;`
 
 export default App;

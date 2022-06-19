@@ -5,6 +5,7 @@ import { SmallTweet } from "./SmallTweet";
 import Loading from "./Spinners";
 import { useHistory } from "react-router-dom";
 
+
 export const HomeFeed = () => {
     let history = useHistory();
     const [feed, setFeed] = useState(null);
@@ -43,11 +44,11 @@ export const HomeFeed = () => {
             })
         .then(data => {
         console.log('Success:', data);
-        fetch("/api/me/home-feed")
-        .then((res)=>res.json())
-        .then((data)=>{
-            setFeed(data)
-        })
+            fetch("/api/me/home-feed")
+            .then((res)=>res.json())
+            .then((data)=>{
+                setFeed(data)
+            })
         })
         .catch((error) => {
         console.error('Error:', error);
@@ -60,7 +61,7 @@ export const HomeFeed = () => {
         <textarea rows='10' cols='50' type='text' placeholder="What's happening?" onChange={handleChange}></textarea>
         <ButtonDiv>
             {currentTweet.length <= 280 ? <P> {280-currentTweet.length}</P> : <RedP> {280-currentTweet.length}</RedP>}
-            <Button type="submit" onClick={handleSubmit} disabled={currentTweet.length <= 280 ? false : true}>Meow</Button>
+            <Button type="submit" onClick={currentTweet.length > 0 && handleSubmit} disabled={currentTweet.length <= 280 ? false : true}>Meow</Button>
         </ButtonDiv>
         {feed ? feed.tweetIds.map((id) => {
         const tweet = feed.tweetsById[id]
@@ -75,6 +76,7 @@ display: flex;
 flex-direction: column;
 width: 900px;
 margin-top: 20px;
+margin-left:-80px;
 `
 
 const ButtonDiv = styled.div`

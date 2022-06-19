@@ -5,41 +5,42 @@ import { FiHome, FiBell, FiUser, FiBookmark } from "react-icons/fi";
 import { COLORS } from "./constants";
 import { useContext } from "react";
 import { CurrentUserContext } from "./CurrentUserContext";
+import Loading from "./Spinners";
 
 const Sidebar = () => {
     const {currentUser} = useContext(CurrentUserContext)
     return currentUser ? (
         <Wrapper>
-            <LogoIcon style={{marginBottom: "10px"}}/>
+            <LogoIcon style={{marginBottom: "20px", marginRight: "100px"}}/>
             <ul>
                 <Item>
-                    <ItemLink exact to="/"><FiHome /><Text>Home</Text></ItemLink>
+                    <ItemLink exact to="/"><FiHome style={{fontSize: "22px"}}/><Text>Home</Text></ItemLink>
                     {/* Home */}
                 </Item>
                 <Item>
-                    <ItemLink to={`/profile/${currentUser.profile.handle}`}><FiUser /><Text>Profile</Text></ItemLink>
+                    <ItemLink to={`/profile/${currentUser.profile.handle}`}><FiUser style={{fontSize: "22px"}}/><Text>Profile</Text></ItemLink>
                     {/* <ItemLink to="/profile/:profileId"><FiUser /><Text>Profile</Text></ItemLink> */}
                     {/* Profile */}
                 </Item>
                 <Item>
-                    <ItemLink to="/notifications"><FiBell /><Text>Notifications</Text></ItemLink>
+                    <ItemLink to="/notifications"><FiBell style={{fontSize: "22px"}}/><Text>Notifications</Text></ItemLink>
                     {/* Notifications */}
                 </Item>
                 <Item>
-                    <ItemLink to="/bookmarks"><FiBookmark /><Text>Bookmarks</Text></ItemLink>
+                    <ItemLink to="/bookmarks"><FiBookmark style={{fontSize: "22px"}}/><Text>Bookmarks</Text></ItemLink>
                     {/* Bookmarks */}
                 </Item>
             </ul>
         </Wrapper>
     )
-    : (<div>loading</div>)
+    : <Wrapper><Loading /></Wrapper>
 }
 
 const Wrapper = styled.div`
 background-color:white;  
 color:black;
 height:100%;
-flex:1;
+flex:1 1 30%;
 display: flex;
 align-items: center;
 flex-direction: column;
@@ -60,6 +61,7 @@ text-decoration: none;
 color: black;
 font-weight: bold;
 font-family: sans-serif;
+align-items: center;
 :hover {
     color: ${COLORS.primary};
 }
@@ -69,6 +71,8 @@ font-family: sans-serif;
 `
 
 const Text = styled.p`
-margin-left: 10px;`
+margin-left: 20px;
+font-size: 1.3rem;`
+
 
 export default Sidebar;

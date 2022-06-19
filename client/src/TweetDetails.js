@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BigTweet } from "./BigTweet";
+import Loading from "./Spinners";
 
 export const TweetDetails = () => {
     const {tweetId} = useParams()
@@ -26,7 +27,7 @@ export const TweetDetails = () => {
         <>
         {tweetClicked ?
         <BigTweet tweet={tweetClicked} />
-        : <div>loading</div> }
+        : <Loading /> }
         </>
     )
 };

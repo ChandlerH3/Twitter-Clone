@@ -4,10 +4,11 @@ import { CurrentUserContext } from "./CurrentUserContext";
 import { COLORS } from "./constants";
 
 import styled from "styled-components";
-import { FiMapPin } from "react-icons/fi";
+import { FiMapPin, FiCalendar } from "react-icons/fi";
 import Loading from "./Spinners";
 import { useHistory } from "react-router-dom";
 import { SmallTweet } from "./SmallTweet";
+import moment from "moment";
 
 export const Profile = () => {
     let history = useHistory();
@@ -43,6 +44,7 @@ export const Profile = () => {
 
       console.log(currentUser)
       console.log(profileTweet)
+      console.log(Profile)
     //   console.log(profileTweet.tweetsById)
     return (
         <>
@@ -50,7 +52,8 @@ export const Profile = () => {
           <Wrapper>
             <Banner src={Profile.profile.bannerSrc} />
             <Avatar src={Profile.profile.avatarSrc} />
-            {Profile.profile.isFollowingYou ? <Button>Following</Button> : <Button>Follow</Button>}
+            {Profile.profile.isFollowingYou && <Button>Following</Button>}
+            {Profile.profile.isFollowingYou === currentUser.profile.handle && <Button></Button>}
             <Content>
                 <Name>{Profile.profile.displayName}</Name>
                 <div style={{display: "flex", alignItems: "center"}}>
@@ -63,10 +66,18 @@ export const Profile = () => {
                   }}>Follows you</div>}
                 </div>
                 <Bio>{Profile.profile.bio}</Bio>
-                <Location>
-                    <FiMapPin style={{marginRight: '5px'}}/>
-                    <p>{Profile.profile.location}</p>
-                </Location>
+                <div style={{display:"flex",
+                    alignItems: "center",
+                    marginBottom: "10px"}}>
+                    <Location>
+                      <FiMapPin style={{marginRight: '5px'}}/>
+                      <p>{Profile.profile.location}</p>
+                    </Location>
+                    <JoinedStatus>
+                      <FiCalendar style={{marginRight: '5px'}}/>
+                      <p>Joined {moment(Profile.profile.joined).format('MMMM YYYY')}</p>
+                    </JoinedStatus>
+                </div>
                 <Status>
                     <StatusDiv><Number>{Profile.profile.numFollowing}</Number> Following</StatusDiv>
                     <div><Number>{Profile.profile.numFollowers} </Number>Followers</div>
@@ -79,7 +90,7 @@ export const Profile = () => {
             </Tab>
             {profileTweet && profileTweet.tweetIds.map((id) => {
                 const UserTweet = profileTweet.tweetsById[id]
-                return <SmallTweet tweet={UserTweet} />;
+                return <SmallTweet key={id} tweet={UserTweet} />;
             })}
           </Wrapper> : 
           <Loading />
@@ -91,18 +102,21 @@ const Button = styled.button`
 background-color: ${COLORS.primary};
 border-radius: 50px;
 color: white;
-padding:10px 20px;
+padding:10px 30px;
 font-size: 16px;
 border:none;
 margin-right: 20px;
 float:right;
 margin-top:20px;
+font-size: 1.1rem;
+font-weight: bold;
 `
 
 const Wrapper = styled.div`
 width:900px;
 border-left:1px solid lightgrey;
-border-right:1px solid lightgrey;`
+border-right:1px solid lightgrey;
+margin-left:-80px;`
 
 const StatusDiv = styled.div`
 margin-right: 10px;`
@@ -122,6 +136,7 @@ const Bio = styled.p`
 font-size:1.1rem;
 margin-top: 10px;
 margin-bottom: 10px;
+letter-spacing: -0.8px;
 `
 const Content = styled.div`
 display: flex;
@@ -132,18 +147,27 @@ margin-left: 10px;
 const Banner = styled.img`
 height:200px;
 width: 900px;
+object-fit: cover;
 `
 const Avatar = styled.img`
 border-radius: 50%;
 width: 150px;
 margin-top: -80px;
 margin-left: 20px;
+border: 5px solid white;
 `
 const Location = styled.div`
 display: flex;
 color: grey;
 align-items: center;
-margin-bottom: 10px;`
+margin-right: 10px;
+`
+
+const JoinedStatus = styled.div`
+display: flex;
+color: grey;
+align-items: center;
+`
 
 const Status = styled.div`
 display: flex;
